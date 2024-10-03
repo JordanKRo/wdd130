@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
 
-nav {
+/* nav {
     background-color: var(--nav-background-color);
     line-height: 3em;
     text-align: center;
@@ -31,4 +31,4 @@ nav a:hover {
 
 .foot-item{
     background-color: grey;
-}
+} */
