@@ -1,0 +1,41 @@
+body {
+    background-color: rgb(66, 169, 238);
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 1;
+}
+
+h1:hover {
+    color: black
+}
+
+ol {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+}
+
+p {
+    color: white;
+    text-align: center;
+    font-family:'Times New Roman', Times, serif
+}
+
+img {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.quote {
+    font-size: 34px;
+}
+
+.foot {
+    color: black;
+}

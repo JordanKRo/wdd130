@@ -1,3 +1,12 @@
+* {
+    border: 2px solid red
+}
+
+body {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
 img {
     /* width: 400px; */
     width: 100%;
@@ -16,8 +25,8 @@ body {
     background-color: rgb(255, 255, 255);
     font-family: Arial, Helvetica, sans-serif;
 }
-nav{
-    
+a:hover{
+    background-color: rgb(53, 125, 28);
 }
 :any-link {
     background-color: #04AA6D;
