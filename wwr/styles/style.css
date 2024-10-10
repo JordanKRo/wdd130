@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+French+Canon&family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+
+p {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#content {
+    max-width: 1600px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+nav{
+    padding-bottom: 20px;
+}
+
+nav a {
+    text-align: center;
+    padding: 15px 32px;
+    /* background-color: #04AA6D; */
+    color: rgb(255, 255, 255);
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 6px;
+}
+nav a:hover {
+    background-color: #174b4c;
+}
+
+#hero-msg h1, #hero-msg h4 {
+    text-align: center;
+    
+}
+h1 {
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+h2 {
+    font-family: "Kalam", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+h4 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+.join, .book {
+    background-color: #04AA6D; /* Green */
+    border: none;
+    color: rgb(0, 0, 0);
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+.button-box {
+    text-align: center;
+    background-color: #034748;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-left: -100px;
+    margin-right: -100px;
+}
+
+main section {
+    text-align: center;
+
+}
+body {
+    background-color: rgb(255, 251, 245);
+}
+header {
+    background-color: #034748;
+}
+
+.book, .join{
+    background-color: #AEF78E;
+}
+.book:hover, .join:hover{
+    background-color: #CAFFB9;
+}
+#background{
+    height: 725px;
+    background-color: bisque;
+    margin-left: -100px;
+    margin-right: -100px;
+}
+.msg{
+    background-color: rgb(255, 255, 255);
+}
+footer{
+    background-color: #034748;
+    margin-left: -100px;
+    margin-right: -100px;
+}
+
+footer p{
+    color: white;
+    padding-top: 5px;
+}
+
+footer a{
+    color: white;
+}
