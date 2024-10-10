@@ -23,11 +23,11 @@ nav a {
     text-align: center;
     padding: 15px 32px;
     /* background-color: #04AA6D; */
-    color: rgb(255, 255, 255);
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     text-decoration: none;
-    border-radius: 6px;
+    margin-left: 15px; /* Add space between nav links */
+    color: #ffffff; /* You can adjust the link styling */
 }
 nav a:hover {
     background-color: #174b4c;
@@ -118,12 +118,25 @@ footer a{
 .icon {
     width: 80px;
 }
-.logo {
-    width: 30px;
-    float: left
-}
 
 #hero-img {
     width: 100%;
 }
 
+header {
+    display: flex;
+    align-items: center; /* Vertically centers items */
+    justify-content: space-between; /* Ensures space between the logo and nav */
+    padding: 10px 20px; /* Add padding if needed for spacing */
+}
+
+.logo {
+    width: 80px;
+    margin-right: 20px; /* Adds space between the logo and nav */
+}
+
+
+nav {
+    display: flex; /* Ensures nav links are in a row */
+    align-items: center; /* Vertically centers nav links to the logo */
+}
