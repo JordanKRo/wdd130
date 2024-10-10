@@ -14,7 +14,9 @@ p {
 }
 
 nav{
+    padding-top: 25px;
     padding-bottom: 20px;
+    text-align: left;
 }
 
 nav a {
@@ -105,8 +107,23 @@ footer{
 footer p{
     color: white;
     padding-top: 5px;
+    font-size: 1.2em;
 }
 
 footer a{
     color: white;
+    text-decoration: none;
 }
+
+.icon {
+    width: 80px;
+}
+.logo {
+    width: 30px;
+    float: left
+}
+
+#hero-img {
+    width: 100%;
+}
+
