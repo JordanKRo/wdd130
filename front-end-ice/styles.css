@@ -1,0 +1,23 @@
+#bubbles{
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+}
+
+.profiles {
+    background-color: rgb(118, 118, 118);
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 50px 10px;
+    gap: 30px
+}
+
+.profiles img {
+    max-width: 150px;
+    border-radius: 100%;
+    border: 5px solid rgb(54, 54, 54);
+}
