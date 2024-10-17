@@ -46,16 +46,25 @@ h2 {
     font-family: "Kalam", cursive;
     font-weight: 400;
     font-style: normal;
+    margin: 0;
 }
 h4 {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
 }
+.home-title{
+    font-size: 2em;
+}
+.card-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 20px;
+}
 .join, .book {
     background-color: #04AA6D; /* Green */
     border: none;
     color: rgb(0, 0, 0);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "poppins", Helvetica, sans-serif;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -94,8 +103,22 @@ header {
     /* margin-left: -100px;
     margin-right: -100px; */
 }
+.card-img {
+    max-width: 240px;
+}
+
+.mountains {
+    padding: 40px 0px;
+}
 .msg{
     background-color: rgb(255, 255, 255);
+    line-height: 1.5em;
+    margin-top: 50px;
+}
+
+.msg p {
+    padding-left: 10%;
+    padding-right: 10%;
 }
 footer{
     background-color: #034748;
