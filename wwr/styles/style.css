@@ -5,9 +5,11 @@ p {
     font-weight: 400;
     font-style: normal;
 }
-
+main {
+    margin: 0px;
+}
 #content {
-    max-width: 1600px;
+    /* max-width: 1600px; */
     display: block;
     margin: 0 auto;
     text-align: center;
@@ -111,15 +113,21 @@ header {
     padding: 40px 0px;
 }
 .msg{
-    background-color: rgb(255, 255, 255);
+    background-color: #034748;
+    padding: 30px;
     line-height: 1.5em;
-    margin-top: 50px;
+    margin: 50px 0px;
 }
 
 .msg p {
     padding-left: 10%;
     padding-right: 10%;
+    color: white;
 }
+.msg h2 {
+    color: white;
+}
+
 footer{
     background-color: #034748;
     /* margin-left: -100px;
