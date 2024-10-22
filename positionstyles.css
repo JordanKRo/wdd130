@@ -121,6 +121,7 @@
   height: 100%; 
   background-color: blue; 
 } 
+/* This one does not use a grid */
 /* Activity 5 styles */ 
 .content5 {
   /* This is the parent of the activity 5 boxes. */
