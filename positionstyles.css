@@ -164,6 +164,7 @@
   grid-template-rows: repeat(6,100px);
   background-color: rgb(242, 242, 242);
   width: 600px;
+  height: 600px;
 }
 .red6 {
   width: 100%; 
