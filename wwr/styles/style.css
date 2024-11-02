@@ -18,7 +18,7 @@ main {
 nav{
     padding-top: 25px;
     padding-bottom: 20px;
-    text-align: left;
+    /* text-align: left; */
 }
 
 nav a {
@@ -106,6 +106,8 @@ body {
     padding: 0;
 }
 header {
+    display: grid;
+    grid-template-columns: 200px auto;
     background-color: #034748;
 }
 
@@ -169,20 +171,18 @@ footer a{
     width: 100%;
 }
 
-header {
-    display: flex;
-    align-items: center; /* Vertically centers items */
-    justify-content: space-between; /* Ensures space between the logo and nav */
-    padding: 10px 20px; /* Add padding if needed for spacing */
-}
-
 .logo {
     width: 80px;
-    margin-right: 20px; /* Adds space between the logo and nav */
+    /* margin-right: 20px; Adds space between the logo and nav */
 }
 
 
 nav {
     display: flex; /* Ensures nav links are in a row */
     align-items: center; /* Vertically centers nav links to the logo */
+    grid-column: 2/3;
+}
+#logo_link{
+    grid-column: 1/2;
+    align-self: center;
 }
