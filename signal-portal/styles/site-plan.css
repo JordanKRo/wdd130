@@ -22,10 +22,10 @@ Fonts are separated by a | */
   --paragraph-color-on-white: #396E94; /* paragraph text on a white background */ 
   --paragraph-color-on-color: white; /* paragraph text on a colored background */ 
   --paragraph-background-color: #396E94  ;
-  --nav-link-color: #396E94;
-  --nav-background-color: #D4AC0D;
+  --nav-link-color: white;
+  --nav-background-color: #d61616;
   --nav-hover-link-color: white;
-  --nav-hover-background-color: #396E94;
+  --nav-hover-background-color: #a30a0a;
 }
 
 
@@ -121,6 +121,7 @@ nav a {
   min-width: 120px;
   text-decoration: none;
   padding: 10px;
+  font-family: var(--paragraph-font);
 
 }
 nav a:link, nav a:visited {
