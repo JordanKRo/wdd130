@@ -131,7 +131,7 @@ function selectDate(dayEl, day) {
         });
     } else {
         const noEventOption = document.createElement("option");
-        noEventOption.textContent = "No events";
+        noEventOption.textContent = "No Excursions";
         eventDropdownEl.appendChild(noEventOption);
     }
 }
@@ -148,22 +148,25 @@ reserveButton.addEventListener("click", () => {
 
         // Create a new Date object using local time by setting year, month, and day directly
         const selectedEventDate = new Date(selectedYear, selectedMonth, selectedDay);
-        console.log(currentMonth)
-        console.log(currentYear)
-        console.log(selectedDayEl.textContent)
+        // console.log(currentMonth)
+        // console.log(currentYear)
+        // console.log(selectedDayEl.textContent)
         console.log(selectedEventDate)
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Set to midnight for accurate comparison
 
         // Log dates to check for accuracy
-        console.log("Today's Date:", today);
+        // console.log("Today's Date:", today);
         console.log("Selected Event Date:", selectedEventDate);
+        console.log(selectedEventId)
 
         // Check if the selected date is strictly in the future
-        if (selectedEventDate > today) {
+        if (selectedEventDate > today && selectedEventId != "No Excursions") {
             // Proceed if the date is in the future
             window.location.href = `reserve.html?event_id=${selectedEventId}`;
-        } else {
+        } else if (selectedEventDate > today){
+            alert("There are no tours on this day.");
+        }else{
             // Block reservation if the date is today or in the past
             alert("You cannot reserve an event for today or a past date.");
         }
