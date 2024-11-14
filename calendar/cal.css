@@ -1,6 +1,6 @@
 /* styles.css */
 body {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -9,7 +9,9 @@ body {
 }
 
 .calendar {
-    width: 80%;
+    width: 100%;
+    /* Remove this if using grid */
+    justify-self: center;
     /* height: 80%; */
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -61,7 +63,35 @@ body {
 }
 
 .calendar-grid .today {
-    background-color: #3f51b5;
+    background-color: #004947;
     color: white;
     font-weight: bold;
+}
+/* Styles for calendar cells */
+.calendar-day {
+    padding: 5px;
+    border: 1px solid #ddd;
+    position: relative;
+    min-height: 70px;
+    max-height: 100px;
+}
+
+.calendar-day .event {
+    font-size: 0.75em;
+    background-color: #005e38;
+    margin-top: 2px;
+    padding: 2px;
+    border-radius: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90%;
+    justify-self: center;
+}
+
+.selected {
+    background-color: #b3d4fc; /* Light blue highlight for selected day */
+    border-color: #4a90e2;     /* Darker blue border */
+    font-weight: bold;         /* Optional: make the text bold */
+    color: #003366;            /* Optional: change text color */
 }
