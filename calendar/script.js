@@ -48,22 +48,24 @@ function renderCalendar() {
     for (let day = 1; day <= daysInMonth; day++) {
         const dayEl = document.createElement("div");
         dayEl.classList.add("calendar-day");
-        dayEl.textContent = day;
 
+        // Create a span for the day number
+        const dayNumberEl = document.createElement("span");
+        dayNumberEl.textContent = day;
+
+        // Check if this day is today
         if (day === date.getDate() && currentMonth === date.getMonth() && currentYear === date.getFullYear()) {
-            dayEl.classList.add("today");
+            dayNumberEl.classList.add("today-circle");  // Add the circle styling class to the day number
         }
 
-        // Get events for this day
+        dayEl.appendChild(dayNumberEl);
+
         const selectedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        
-        // Get events and check if any are in the past
         const dayEvents = events.filter(event => event.date === selectedDate);
         const isPastDate = dayEvents.some(event => event.isPast);
 
         if (isPastDate) {
-            dayEl.classList.add("past-day"); // Custom style for past days
-            dayEl.classList.add("disabled"); // Optional: disable click for past days
+            dayEl.classList.add("past-day");
         }
 
         dayEvents.forEach(event => {
@@ -74,7 +76,7 @@ function renderCalendar() {
         });
 
         dayEl.addEventListener("click", () => {
-            if (!isPastDate) {  // Prevent selecting past dates
+            if (!isPastDate) {
                 selectDate(dayEl, day);
             }
         });

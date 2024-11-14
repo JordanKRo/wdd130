@@ -66,11 +66,19 @@ body {
     box-sizing: border-box;
     cursor: pointer;
 }
+.calendar-day span{
+    padding: 4px;
+}
 
 .calendar-grid .today {
-    background-color: #004947;
-    color: white;
+    /* background-color: #72ffbd; */
+    color: rgb(0, 0, 0);
     font-weight: bold;
+}
+.today-circle{
+    background-color: #456699;
+    padding: 4px;
+    border-radius: 100%;
 }
 
 .calendar-grid div:hover {
