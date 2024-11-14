@@ -8,6 +8,8 @@ let currentMonth = date.getMonth();
 let currentYear = date.getFullYear();
 let events = [];  // To store events from the CSV
 
+let selectedDayEl = null; // Keep track of the currently selected day element
+
 const monthNameEl = document.querySelector(".month-name");
 const calendarGridEl = document.querySelector(".calendar-grid");
 const eventDropdownEl = document.querySelector("#event-dropdown");
@@ -64,8 +66,9 @@ function renderCalendar() {
             dayEl.appendChild(eventEl);
         });
 
+        // Click event for selecting the day
         dayEl.addEventListener("click", () => {
-            selectDate(day);
+            selectDate(dayEl, day);
         });
 
         calendarGridEl.appendChild(dayEl);
@@ -84,10 +87,20 @@ async function loadEvents() {
 }
 
 // Populate event dropdown for a selected date
-function selectDate(day) {
+function selectDate(dayEl, day) {
     const selectedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const filteredEvents = events.filter(event => event.date === selectedDate);
 
+    // Clear previous selection
+    if (selectedDayEl) {
+        selectedDayEl.classList.remove("selected");
+    }
+
+    // Highlight the clicked day
+    dayEl.classList.add("selected");
+    selectedDayEl = dayEl;
+
+    // Populate the event dropdown
     eventDropdownEl.innerHTML = "";  // Clear previous options
     if (filteredEvents.length > 0) {
         filteredEvents.forEach(event => {
