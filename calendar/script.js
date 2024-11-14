@@ -56,9 +56,16 @@ function renderCalendar() {
 
         // Get events for this day
         const selectedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        
+        // Get events and check if any are in the past
         const dayEvents = events.filter(event => event.date === selectedDate);
+        const isPastDate = dayEvents.some(event => event.isPast);
 
-        // Display events inside the calendar day
+        if (isPastDate) {
+            dayEl.classList.add("past-day"); // Custom style for past days
+            dayEl.classList.add("disabled"); // Optional: disable click for past days
+        }
+
         dayEvents.forEach(event => {
             const eventEl = document.createElement("div");
             eventEl.classList.add("event");
@@ -66,9 +73,10 @@ function renderCalendar() {
             dayEl.appendChild(eventEl);
         });
 
-        // Click event for selecting the day
         dayEl.addEventListener("click", () => {
-            selectDate(dayEl, day);
+            if (!isPastDate) {  // Prevent selecting past dates
+                selectDate(dayEl, day);
+            }
         });
 
         calendarGridEl.appendChild(dayEl);
@@ -80,9 +88,21 @@ function renderCalendar() {
 async function loadEvents() {
     const response = await fetch('events.csv');
     const csvText = await response.text();
+
+    // Current date for comparison
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);  // Midnight to ignore time part
+
     events = csvText.split('\n').slice(1).map(line => {
         const [date, time, event_name, event_id] = line.split(',');
-        return { date, time, event_name, event_id };
+
+        return { 
+            date, 
+            time, 
+            event_name, 
+            event_id, 
+            isPast: new Date(date) < today // Check if event date is in the past
+        };
     });
 }
 
@@ -119,10 +139,37 @@ function selectDate(dayEl, day) {
 // Redirect to reservation page with event ID as a parameter
 reserveButton.addEventListener("click", () => {
     const selectedEventId = eventDropdownEl.value;
-    if (selectedEventId) {
-        window.location.href = `reserve.html?event_id=${selectedEventId}`;
+
+    if (selectedEventId && selectedDayEl) {
+        // Parse the selected date manually to avoid time zone issues
+        const selectedYear = currentYear;
+        const selectedMonth = currentMonth; // Month is 0-based
+        const selectedDay = parseInt(selectedDayEl.textContent, 10);
+
+        // Create a new Date object using local time by setting year, month, and day directly
+        const selectedEventDate = new Date(selectedYear, selectedMonth, selectedDay);
+        console.log(currentMonth)
+        console.log(currentYear)
+        console.log(selectedDayEl.textContent)
+        console.log(selectedEventDate)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to midnight for accurate comparison
+
+        // Log dates to check for accuracy
+        console.log("Today's Date:", today);
+        console.log("Selected Event Date:", selectedEventDate);
+
+        // Check if the selected date is strictly in the future
+        if (selectedEventDate > today) {
+            // Proceed if the date is in the future
+            window.location.href = `reserve.html?event_id=${selectedEventId}`;
+        } else {
+            // Block reservation if the date is today or in the past
+            alert("You cannot reserve an event for today or a past date.");
+        }
     }
 });
+
 
 // Load events and render the calendar
 loadEvents().then(renderCalendar);
