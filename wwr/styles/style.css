@@ -241,6 +241,11 @@ nav {
     grid-template-columns: repeat(10,1fr);;
 }
 
+.packages{
+    display: flex;
+    justify-content: space-around;
+}
+
 @media screen and (max-width: 900px) {
     #hero, .home-grid {
         display: block;
