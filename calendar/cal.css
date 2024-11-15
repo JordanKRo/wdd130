@@ -20,7 +20,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #3f51b5;
+    background-color: #1481ba;
     color: white;
 }
 
@@ -67,7 +67,7 @@ body {
     cursor: pointer;
 }
 .calendar-day span{
-    padding: 4px;
+    padding: 5px;
 }
 
 .calendar-grid .today {
@@ -76,9 +76,10 @@ body {
     font-weight: bold;
 }
 .today-circle{
-    background-color: #456699;
+    background-color: #1481ba;
     padding: 4px;
     border-radius: 100%;
+    color: white;
 }
 
 .calendar-grid div:hover {
@@ -96,6 +97,11 @@ body {
     text-overflow: ellipsis;
     width: 90%;
     justify-self: center;
+}
+
+.past-day .event{
+    background-color: #727272;
+    color: white;
 }
 
 .selected {
