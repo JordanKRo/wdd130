@@ -143,7 +143,7 @@ reserveButton.addEventListener("click", () => {
     const selectedEventId = eventDropdownEl.value;
 
     if (selectedEventId && selectedDayEl) {
-        // Parse the selected date manually to avoid time zone issues
+        // time zone issues
         const selectedYear = currentYear;
         const selectedMonth = currentMonth; // Month is 0-based
         const selectedDay = parseInt(selectedDayEl.textContent, 10);
