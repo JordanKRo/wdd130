@@ -75,18 +75,15 @@ function calculateTotal() {
         subTotal = (adults * adultPrice) + (children * childPrice);
     }
     let tax = subTotal * .06
-    tax = tax.toFixed(2)
-    subTotal = subTotal.toFixed(2)
     let total = subTotal + tax
-    total = total.toFixed(2)
     document.getElementById('subtotal').textContent = subTotal > 0 
-        ? `Subtotal: $${subTotal}` 
+        ? `Subtotal: $${subTotal.toFixed(2)}` 
         : 'Please enter valid inputs.';
     document.getElementById('tax').textContent = subTotal > 0 
-        ? `Tax: $${tax}` 
+        ? `Tax: $${tax.toFixed(2)}` 
         : '';
     document.getElementById('total-price').textContent = subTotal > 0 
-        ? `Total Price: $${total}`
+        ? `Total Price: $${total.toFixed(2)}`
         : '';
 }
 
