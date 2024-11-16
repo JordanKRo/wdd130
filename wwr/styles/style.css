@@ -270,6 +270,9 @@ nav {
     display: flex;
     justify-content: space-around;
 }
+.package-image{
+    width: 100px;
+}
 
 /* ======================= Calendar ============================ */
 
