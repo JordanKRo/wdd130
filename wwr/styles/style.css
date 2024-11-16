@@ -100,18 +100,27 @@ h4 {
     font-size: 16px;
     border-radius: 6px;
   }
-.button-box, button{
+.button-box, button, select{
     text-align: center;
     padding-top: 16px;
     padding-bottom: 16px;
 }
 
 /* for the special button on page 2 */
-button{
+button, select{
     padding-left: 20px;
     padding-right: 20px;
     background-color: var();
+    
+    
+    border-radius: 10px;
+    font-family: "poppins", Helvetica, sans-serif;
 }
+button{
+    background-color: #AEF78E;
+    border: none;
+}
+
 
 main section {
     text-align: center;
@@ -270,6 +279,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    margin-bottom: 30px;
 }
 
 .calendar-header {
@@ -346,7 +356,7 @@ body {
     background-color: #e0e0e0;
 }
 .calendar-grid .event:hover {
-    background-color: #579e82;
+    background-color: #CAFFB9;
 }
 .calendar-grid .past-day .event:hover {
     background-color: #525252;
@@ -354,7 +364,7 @@ body {
 
 .calendar-day .event {
     font-size: 0.75em;
-    background-color: #7de2ba;
+    background-color: #AEF78E;
     margin-top: 2px;
     padding: 2px;
     border-radius: 3px;
@@ -376,6 +386,28 @@ body {
     font-weight: bold;
     color: #003366;
 }
+
+/* ============================= Registration ================================== */
+
+#reg{
+    text-align: center;
+}
+.form-container{
+    text-align: left;
+    width: 50%;
+    justify-self: center;
+    padding: 20px;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+#calculate-button{
+    margin-top: 20px;
+}
+
+.form-group{
+    margin-bottom: 16px;
+}
+
 
 
 /* ================================ Media ====================================== */
