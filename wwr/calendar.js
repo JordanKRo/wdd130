@@ -42,7 +42,9 @@ function renderCalendar() {
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     for (let i = 0; i < firstDay; i++) {
-        calendarGridEl.innerHTML += `<div></div>`;
+        const emptyCell = document.createElement("div");
+        emptyCell.classList.add("empty-cell"); // Add a class for consistent styling
+        calendarGridEl.appendChild(emptyCell);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -106,6 +108,7 @@ async function loadEvents() {
             isPast: new Date(date) < today // Check if event date is in the past
         };
     });
+    console.log(events)
 }
 
 // Populate event dropdown for a selected date
