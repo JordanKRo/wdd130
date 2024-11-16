@@ -115,10 +115,15 @@ button, select{
     
     border-radius: 10px;
     font-family: "poppins", Helvetica, sans-serif;
+    cursor: pointer;
 }
 button{
     background-color: #AEF78E;
     border: none;
+}
+
+#event-dropdown{
+    margin-inline: 20px;
 }
 
 
@@ -400,14 +405,14 @@ body {
     border: 1px solid rgb(0, 0, 0);
 }
 
-#calculate-button{
-    margin-top: 20px;
-}
 
 .form-group{
     margin-bottom: 16px;
 }
-
+.total{
+    margin-top: 25px;
+    font-weight: bold;
+}
 
 
 /* ================================ Media ====================================== */
