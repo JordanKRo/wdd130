@@ -121,9 +121,18 @@ function selectDate(dayEl, day) {
     // Highlight the clicked day
     dayEl.classList.add("selected");
     selectedDayEl = dayEl;
-
-    // Populate the event dropdown
     eventDropdownEl.innerHTML = "";  // Clear previous options
+    if(day == null){
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select a date";
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        eventDropdownEl.appendChild(defaultOption);
+    }
+    
+    // Populate the event dropdown
+    
     if (filteredEvents.length > 0) {
         filteredEvents.forEach(event => {
             const option = document.createElement("option");

@@ -1,6 +1,6 @@
-const groupPrice = 100;
-const adultPrice = 100; // Price per adult
-const childPrice = 10; // Price per child
+const groupPrice = 61.6;
+const adultPrice = 81.32; // Price per adult
+const childPrice = 60.32; // Price per child
 
 // Load the event details from the CSV file based on the event_id in the URL
 async function loadEventDetails() {
@@ -29,7 +29,7 @@ async function loadEventDetails() {
         today.setHours(0, 0, 0, 0); // Remove time portion for comparison
 
         if (eventDate <= today) {
-            window.location.href = '/wwr/404.md';
+            window.location.href = '/wwr/404.html';
             return;
         }
 
@@ -40,7 +40,7 @@ async function loadEventDetails() {
         `;
     } else {
         document.getElementById('event-info').innerHTML = '<p>Error: Event not found.</p>';
-        window.location.href = '/wwr/404.md';
+        window.location.href = '/wwr/404.html';
     }
 }
 
@@ -60,24 +60,34 @@ document.querySelectorAll('input[name="group"]').forEach(radio => {
 // Calculate total cost
 function calculateTotal() {
     const isGroup = document.querySelector('input[name="group"]:checked').value === 'yes';
-    let total = 0;
+    let subTotal = 0;
 
     if (isGroup) {
         const groupSize = parseInt(document.getElementById('group-size').value, 10) || 0;
         if (groupSize >= 12) {
-            total = groupPrice * groupSize
+            subTotal = groupPrice * groupSize
         } else {
-            total = 0; // Set to 0 if the group size is invalid
+            subTotal = 0; // Set to 0 if the group size is invalid
         }
     } else {
         const adults = parseInt(document.getElementById('adults').value, 10) || 0;
         const children = parseInt(document.getElementById('children').value, 10) || 0;
-        total = (adults * adultPrice) + (children * childPrice);
+        subTotal = (adults * adultPrice) + (children * childPrice);
     }
-
-    document.getElementById('total-price').textContent = total > 0 
-        ? `Total Price: $${total}` 
+    let tax = subTotal * .06
+    tax = tax.toFixed(2)
+    subTotal = subTotal.toFixed(2)
+    let total = subTotal + tax
+    total = total.toFixed(2)
+    document.getElementById('subtotal').textContent = subTotal > 0 
+        ? `Subtotal: $${subTotal}` 
         : 'Please enter valid inputs.';
+    document.getElementById('tax').textContent = subTotal > 0 
+        ? `Tax: $${tax}` 
+        : '';
+    document.getElementById('total-price').textContent = subTotal > 0 
+        ? `Total Price: $${total}`
+        : '';
 }
 
 
