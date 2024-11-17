@@ -32,10 +32,15 @@ async function loadEventDetails() {
             window.location.href = '/wwr/404.html';
             return;
         }
+        const formattedDate = new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }).format(eventDate);
 
         document.getElementById('event-info').innerHTML = `
             <p><strong>Event Name:</strong> ${event.event_name}</p>
-            <p><strong>Date:</strong> ${event.date}</p>
+            <p><strong>Date:</strong> ${formattedDate}</p>
             <p><strong>Time:</strong> ${event.time}</p>
         `;
     } else {

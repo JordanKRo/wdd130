@@ -315,6 +315,10 @@ body {
     font-size: 1.2em;
     cursor: pointer;
 }
+.prev-month:hover,
+.next-month:hover {
+    background-color: #106796;
+}
 
 .calendar-days,
 .calendar-grid {
