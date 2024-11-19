@@ -444,6 +444,21 @@ body {
     justify-self: center;
 }
 
+/* ============================= Contact Us ===================================== */
+textarea{
+    padding: 5px;
+    font-family: "poppins", Helvetica, sans-serif;
+    
+    max-width: 20em;
+}
+input{
+    font-family: "poppins", Helvetica, sans-serif;
+}
+
+#contact-form{
+    text-align: center;
+    justify-content: center;
+}
 
 /* ================================ Media ====================================== */
 
