@@ -448,16 +448,47 @@ body {
 textarea{
     padding: 5px;
     font-family: "poppins", Helvetica, sans-serif;
-    
-    max-width: 20em;
+    height: 100px; /* Ensure height is sufficient */
+    resize: vertical; /* Allow resizing only vertically */
 }
 input{
     font-family: "poppins", Helvetica, sans-serif;
 }
 
+.contact-group input, .contact-group textarea{
+    flex: 1; /* Inputs take up remaining space */
+    padding: 5px;
+    font-family: "Poppins", Helvetica, sans-serif;
+    max-width: 20em;
+}
+
 #contact-form{
-    text-align: center;
-    justify-content: center;
+    width: 65%;
+    min-width: 300px;
+    max-width: 600px;
+    margin: 0 auto; /* Center the form */
+    border: 1px solid #000;
+    box-sizing: border-box;
+    display: inline-block;
+    /* Form outline */
+    padding: 1em;
+    border: 1px solid #ccc;
+}
+
+.contact-group{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+.form-l{
+    /* Uniform size & alignment */
+    display: inline-block;
+    min-width: 90px;
+    text-align: right;
+    margin-right: 3px;
+    /* background-color: red; */
 }
 
 /* ================================ Media ====================================== */
