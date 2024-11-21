@@ -9,7 +9,8 @@ async function loadEventDetails() {
 
     if (!eventId) {
         document.getElementById('event-info').innerHTML = '<p>Error: No event selected.</p>';
-        window.location.href = '/wwr/notfound.html';
+        // window.location.href = './404.html';
+        display_notfound();
         return;
     }
 
@@ -30,7 +31,8 @@ async function loadEventDetails() {
         today.setHours(0, 0, 0, 0); // Remove time portion for comparison
 
         if (eventDate <= today) {
-            window.location.href = '/wwr/notfound.html';
+            // window.location.href = './404.html';
+            display_notfound();
             return;
         }
         const formattedDate = new Intl.DateTimeFormat('en-US', {
@@ -46,7 +48,8 @@ async function loadEventDetails() {
         `;
     } else {
         document.getElementById('event-info').innerHTML = '<p>Error: Event not found.</p>';
-        window.location.href = '/wwr/notfound.html';
+        // window.location.href = './404.html';
+        display_notfound();
     }
 }
 
@@ -62,6 +65,23 @@ document.querySelectorAll('input[name="group"]').forEach(radio => {
         }
     });
 });
+
+function display_notfound(){
+    fetch('./404.html')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('404 page not found');
+        }
+        return response.text();
+    })
+    .then(html => {
+        // Replace the entire <body> content
+        document.body.innerHTML = html;
+    })
+    .catch(err => {
+        console.error('Failed to load 404 page:', err);
+    });
+}
 
 // Calculate total cost
 function calculateTotal() {
