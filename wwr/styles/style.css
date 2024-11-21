@@ -465,7 +465,7 @@ input{
 #contact-form{
     width: 65%;
     min-width: 300px;
-    max-width: 600px;
+    max-width: 550px;
     margin: 0 auto; /* Center the form */
     border: 1px solid #000;
     box-sizing: border-box;
@@ -479,7 +479,7 @@ input{
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    justify-content: space-around;
+    justify-content: center;
     align-items: flex-start;
 }
 .form-l{
@@ -488,6 +488,7 @@ input{
     min-width: 90px;
     text-align: right;
     margin-right: 3px;
+    margin-right: 6px;
     /* background-color: red; */
 }
 
