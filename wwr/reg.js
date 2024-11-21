@@ -29,7 +29,7 @@ async function loadEventDetails() {
         today.setHours(0, 0, 0, 0); // Remove time portion for comparison
 
         if (eventDate <= today) {
-            window.location.href = '/wwr/404.html';
+            window.location.href = '/wwr/notfound.html';
             return;
         }
         const formattedDate = new Intl.DateTimeFormat('en-US', {
@@ -45,7 +45,7 @@ async function loadEventDetails() {
         `;
     } else {
         document.getElementById('event-info').innerHTML = '<p>Error: Event not found.</p>';
-        window.location.href = '/wwr/404.html';
+        window.location.href = '/wwr/notfound.html';
     }
 }
 
