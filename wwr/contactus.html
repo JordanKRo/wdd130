@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dry Oar | home</title>
+    <title>Dry Oar | Contact Us</title>
     <link type="text/css" rel="stylesheet" href="styles/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,8 +48,23 @@
                 <button id="send-button" type="submit">Send</button>
             </p>
         </form>
-        
+        <p id="confirmation-message" style="display: none;"></p>
+        <script>
+            document.getElementById("contact-form").addEventListener("submit", function (event) {
+              event.preventDefault(); // Prevent the form from submitting normally
           
+              // Display confirmation message
+              const confirmationMessage = document.getElementById("confirmation-message");
+              confirmationMessage.style.display = "block";
+              name = document.getElementById("name").value;
+              confirmationMessage.textContent = `Thank you ${name}, We got your message and will reach out to you in 1 - 2 business days.`;
+          
+              // Clear the form inputs
+              document.getElementById("name").value = "";
+              document.getElementById("mail").value = "";
+              document.getElementById("msg").value = "";
+            });
+          </script>
     </main>
 
     <footer>

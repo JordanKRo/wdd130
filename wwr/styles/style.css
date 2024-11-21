@@ -491,6 +491,10 @@ input{
     /* background-color: red; */
 }
 
+#confirmation-message{
+    color: #66A182;
+}
+
 /* ================================ Media ====================================== */
 
 
