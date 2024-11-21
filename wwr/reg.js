@@ -9,6 +9,7 @@ async function loadEventDetails() {
 
     if (!eventId) {
         document.getElementById('event-info').innerHTML = '<p>Error: No event selected.</p>';
+        window.location.href = '/wwr/notfound.html';
         return;
     }
 
