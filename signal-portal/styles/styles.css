@@ -71,9 +71,7 @@ a{
 
 #hero {
     display: grid;
-    grid-template-rows: .6fr 0.4fr 0.4fr 0.4fr .6fr;
-    margin-top: -90px; /* Allows sliding under the header */
-    
+    margin-top: -10px; /* Allows sliding under the header */
     position: relative;
     overflow: hidden; /* Prevents content spill */
 }
@@ -82,8 +80,8 @@ a{
     width: 100%;
     height: auto; /* Maintains aspect ratio */
     object-fit: cover; /* Ensures uniform scaling without stretching */
-    min-height: 400px; /* Ensures a minimum size */
-    max-height: 70vh; /* Limits height to 70% of the viewport */
+    min-height: 55vh; /* Ensures a minimum size */
+    max-height: 80vh; /* Limits height to 70% of the viewport */
     grid-column: 1/4;
     grid-row: 1/6;
     z-index: -1; /* Ensures it goes under the header */
@@ -103,11 +101,12 @@ a{
 }
 
 #hero p{
-
+    margin: 40px;
 }
 #hero a{
 
     text-align: center;
     background-color: red;
     color: white;
+    padding: 15px;
 }
