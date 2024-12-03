@@ -69,20 +69,23 @@ a{
     text-decoration: none;
 }
 
-#hero{
+#hero {
     display: grid;
-    grid-template-rows: 1fr .4fr .4fr .4fr 1fr;
-    margin-top: -90px;
-    z-index: -20;
+    grid-template-rows: 1fr 0.4fr 0.4fr 0.4fr 1fr;
+    margin-top: -90px; /* Allows sliding under the header */
+    z-index: -20; /* Ensures it goes under the header */
     position: relative;
-    
+    overflow: hidden; /* Prevents content spill */
 }
 
-#hero img{
+#hero img {
     width: 100%;
+    height: auto; /* Maintains aspect ratio */
+    object-fit: cover; /* Ensures uniform scaling without stretching */
+    min-height: 400px; /* Ensures a minimum size */
+    max-height: 70vh; /* Limits height to 70% of the viewport */
     grid-column: 1/4;
     grid-row: 1/6;
-    min-height: 400px;
 }
 
 #hero h1{
@@ -100,4 +103,5 @@ a{
     grid-column: 2/3;
     text-align: center;
     grid-row: 4/5;
+    z-index: auto;
 }
