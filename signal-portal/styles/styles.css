@@ -191,7 +191,7 @@ footer #links a{
 @media screen and (max-width: 950px) {
     header nav{
         display: block;
-        justify-self: center;
+        justify-self: left;
     }
     header nav a{
         display: block;
