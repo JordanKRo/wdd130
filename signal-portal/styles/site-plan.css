@@ -13,7 +13,7 @@ Fonts are separated by a | */
   --accent2-color: rgb(26, 251, 255);
 
   /* change the values below to your chosen font(s) */
-  --heading-font: "Roboto Mono", monospace;;
+  --heading-font: "Roboto Mono", monospace;
   --paragraph-font: "Montserrat", sans-serif;
 
   /* these colors below should be chosen from among your palette colors above */
