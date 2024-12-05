@@ -55,7 +55,7 @@ nav a:hover{
     background-color: rgb(109, 0, 0);
 }
 
-p{
+p, ul{
     color: white;
     font-family: "Roboto Mono", monospace;
 }
@@ -213,7 +213,18 @@ footer #links a{
 .space{
     height: 50px;
 }
+
+.privacy-main{
+    margin: 10px 400px;
+}
+
+.privacy-main h3{
+    margin-top: 50px;
+}
 @media screen and (max-width: 950px) {
+    .privacy-main{
+        margin: 10px 20px;
+    }
     header nav{
         display: block;
         justify-self: left;
