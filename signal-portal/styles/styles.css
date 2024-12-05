@@ -6,6 +6,13 @@
 body{
     background-color: #222222;
     margin: 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the wrapper takes up at least the full viewport height */
+}
+
+main{
+    flex: 1;
 }
 
 .logo{
@@ -56,9 +63,10 @@ p{
 h1{
     color: white;
     font-family: Montserrat;
+    text-align: center;
 }
 
-h2{
+h2, h3{
     color: white;
     font-family: Montserrat;
     text-align: center;
@@ -167,6 +175,7 @@ footer{
     display: grid;
     background-color: red;
     padding: 20px 0px;
+    margin-top: 20px;
 }
 
 footer #logo_link{
@@ -189,6 +198,20 @@ footer #links a{
     color: white;
 }
 
+.downloads-content{
+    justify-items: center;
+}
+.downloads-content p{
+    text-align: center;
+    margin: 30px;
+}
+
+.downloads-content img{
+    width: 25vw;
+}
+.space{
+    height: 50px;
+}
 @media screen and (max-width: 950px) {
     header nav{
         display: block;
