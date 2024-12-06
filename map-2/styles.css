@@ -1,28 +1,36 @@
-/* Make sure the container takes full screen */
-body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f0f0f0;
-}
-
+/* Container for the pan and zoom viewer */
 .pan-zoom-container {
     position: relative;
-    width: 80vw; /* Adjust width */
-    height: 80vh; /* Adjust height */
+    width: 600px;
+    height: 400px;
     overflow: hidden;
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: 2px solid #333;
+    margin: 20px auto;
+    cursor: move;
 }
 
+/* Image being panned and zoomed */
 .pan-zoom-image {
-    transition: transform 0.3s ease;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform-origin: center center;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    max-width: none;
+    max-height: none;
+}
+
+/* Zoom controls */
+.zoom-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.zoom-controls button {
+    margin: 0 10px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #333;
+    cursor: pointer;
 }

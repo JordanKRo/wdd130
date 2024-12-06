@@ -2,17 +2,21 @@ class PanZoomViewer {
     constructor(containerElement, imageElement) {
         this.container = containerElement;
         this.image = imageElement;
-
+        
         // Initial state
         this.scale = 1;
         this.translateX = 0;
         this.translateY = 0;
-
+        
         // Zoom and pan parameters
         this.minScale = 1;
         this.maxScale = 5;
         this.zoomStep = 0.2;
-
+        
+        // Track initial image dimensions
+        this.originalWidth = 0;
+        this.originalHeight = 0;
+        
         // Bind methods
         this.initializeImage();
         this.initEventListeners();
@@ -20,22 +24,14 @@ class PanZoomViewer {
 
     initializeImage() {
         // Ensure image is loaded before getting dimensions
-        const initDimensions = () => {
-            // Store original image dimensions
+        if (this.image.complete) {
             this.originalWidth = this.image.naturalWidth;
             this.originalHeight = this.image.naturalHeight;
-
-            // Initially center the image
-            this.centerImage();
-
-            // Set initial image state
-            this.updateTransform();
-        };
-
-        if (this.image.complete) {
-            initDimensions();
         } else {
-            this.image.onload = initDimensions;
+            this.image.onload = () => {
+                this.originalWidth = this.image.naturalWidth;
+                this.originalHeight = this.image.naturalHeight;
+            };
         }
     }
 
@@ -45,8 +41,6 @@ class PanZoomViewer {
         let startX, startY;
 
         this.container.addEventListener('mousedown', (e) => {
-            if (this.scale <= 1) return; // Prevent dragging when not zoomed
-
             isDragging = true;
             startX = e.clientX - this.translateX;
             startY = e.clientY - this.translateY;
@@ -55,24 +49,12 @@ class PanZoomViewer {
 
         document.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-
-            // Calculate new translation
-            const newTranslateX = e.clientX - startX;
-            const newTranslateY = e.clientY - startY;
-
-            // Update and constrain translation
-            this.translateX = this.constrainTranslate(
-                newTranslateX,
-                this.originalWidth * this.scale,
-                this.container.clientWidth
-            );
-
-            this.translateY = this.constrainTranslate(
-                newTranslateY,
-                this.originalHeight * this.scale,
-                this.container.clientHeight
-            );
-
+            
+            this.translateX = e.clientX - startX;
+            this.translateY = e.clientY - startY;
+            
+            // Constrain panning within image bounds
+            this.constrainPan();
             this.updateTransform();
         });
 
@@ -88,9 +70,9 @@ class PanZoomViewer {
             // Determine zoom direction
             const delta = e.deltaY;
             if (delta < 0) {
-                this.zoomIn(e);
+                this.zoomIn();
             } else {
-                this.zoomOut(e);
+                this.zoomOut();
             }
         });
 
@@ -98,28 +80,15 @@ class PanZoomViewer {
         this.image.addEventListener('dragstart', (e) => e.preventDefault());
     }
 
-    zoomIn(e) {
-        // Zoom in on mouse position
+    zoomIn() {
         this.scale = Math.min(this.scale + this.zoomStep, this.maxScale);
-        this.zoom(e);
+        this.constrainPan(); // Adjust pan after zooming
+        this.updateTransform();
     }
 
-    zoomOut(e) {
-        // Zoom out on mouse position
+    zoomOut() {
         this.scale = Math.max(this.scale - this.zoomStep, this.minScale);
-        this.zoom(e);
-    }
-
-    zoom(e) {
-        const rect = this.image.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
-
-        // Adjust the translation based on the zoom
-        this.translateX -= (offsetX * this.zoomStep);
-        this.translateY -= (offsetY * this.zoomStep);
-
-        this.constrainPosition();
+        this.constrainPan(); // Adjust pan after zooming
         this.updateTransform();
     }
 
@@ -130,57 +99,40 @@ class PanZoomViewer {
         this.updateTransform();
     }
 
-    constrainTranslate(translate, scaledDimension, containerDimension) {
-        // If scaled dimension is smaller than container, keep centered
-        if (scaledDimension <= containerDimension) {
-            return 0;
-        }
-
-        // Calculate max translation
-        const maxTranslate = (scaledDimension - containerDimension) / 2;
-
-        // Constrain translation
-        return Math.min(
-            Math.max(translate, -maxTranslate),
-            maxTranslate
-        );
-    }
-
-    constrainPosition() {
-        // Constrain X and Y translations when scale changes
+    constrainPan() {
+        // If image is not zoomed, keep it centered
         if (this.scale <= 1) {
             this.translateX = 0;
             this.translateY = 0;
             return;
         }
 
-        this.translateX = this.constrainTranslate(
-            this.translateX,
-            this.originalWidth * this.scale,
-            this.container.clientWidth
-        );
+        // Calculate scaled image dimensions
+        const scaledWidth = this.originalWidth * this.scale;
+        const scaledHeight = this.originalHeight * this.scale;
 
-        this.translateY = this.constrainTranslate(
-            this.translateY,
-            this.originalHeight * this.scale,
-            this.container.clientHeight
-        );
-    }
-
-    centerImage() {
-        // Center the image in the container initially
+        // Calculate container dimensions
         const containerWidth = this.container.clientWidth;
         const containerHeight = this.container.clientHeight;
-        const imageWidth = this.originalWidth;
-        const imageHeight = this.originalHeight;
 
-        // Calculate translate to center image
-        this.translateX = (containerWidth - imageWidth) / 2;
-        this.translateY = (containerHeight - imageHeight) / 2;
+        // Calculate maximum translation limits
+        const maxTranslateX = Math.abs((scaledWidth - containerWidth) / 2);
+        const maxTranslateY = Math.abs((scaledHeight - containerHeight) / 2);
+
+        // Constrain X translation
+        this.translateX = Math.min(
+            Math.max(this.translateX, -maxTranslateX), 
+            maxTranslateX
+        );
+
+        // Constrain Y translation
+        this.translateY = Math.min(
+            Math.max(this.translateY, -maxTranslateY), 
+            maxTranslateY
+        );
     }
 
     updateTransform() {
-        // Use scale and translate to position the image with center as reference point
         this.image.style.transform = `translate(-50%, -50%) scale(${this.scale}) translate(${this.translateX}px, ${this.translateY}px)`;
     }
 }
@@ -196,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewer = new PanZoomViewer(container, image);
 
     // Add zoom control event listeners
-    zoomInBtn.addEventListener('click', () => viewer.zoomIn(event));
-    zoomOutBtn.addEventListener('click', () => viewer.zoomOut(event));
+    zoomInBtn.addEventListener('click', () => viewer.zoomIn());
+    zoomOutBtn.addEventListener('click', () => viewer.zoomOut());
     zoomResetBtn.addEventListener('click', () => viewer.resetZoom());
 });
