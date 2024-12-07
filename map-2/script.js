@@ -13,10 +13,6 @@ class PanZoomViewer {
         this.maxScale = 5;
         this.zoomStep = 0.2;
         
-        // Track initial image dimensions
-        this.originalWidth = 0;
-        this.originalHeight = 0;
-        
         // Bind methods
         this.initializeImage();
         this.initEventListeners();
@@ -24,14 +20,19 @@ class PanZoomViewer {
 
     initializeImage() {
         // Ensure image is loaded before getting dimensions
-        if (this.image.complete) {
+        const initDimensions = () => {
+            // Store original image dimensions
             this.originalWidth = this.image.naturalWidth;
             this.originalHeight = this.image.naturalHeight;
+            
+            // Set initial image state
+            this.updateTransform();
+        };
+
+        if (this.image.complete) {
+            initDimensions();
         } else {
-            this.image.onload = () => {
-                this.originalWidth = this.image.naturalWidth;
-                this.originalHeight = this.image.naturalHeight;
-            };
+            this.image.onload = initDimensions;
         }
     }
 
@@ -41,6 +42,8 @@ class PanZoomViewer {
         let startX, startY;
 
         this.container.addEventListener('mousedown', (e) => {
+            if (this.scale <= 1) return; // Prevent dragging when not zoomed
+            
             isDragging = true;
             startX = e.clientX - this.translateX;
             startY = e.clientY - this.translateY;
@@ -50,11 +53,23 @@ class PanZoomViewer {
         document.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
             
-            this.translateX = e.clientX - startX;
-            this.translateY = e.clientY - startY;
+            // Calculate new translation
+            const newTranslateX = e.clientX - startX;
+            const newTranslateY = e.clientY - startY;
             
-            // Constrain panning within image bounds
-            this.constrainPan();
+            // Update and constrain translation
+            this.translateX = this.constrainTranslate(
+                newTranslateX, 
+                this.originalWidth * this.scale, 
+                this.container.clientWidth
+            );
+            
+            this.translateY = this.constrainTranslate(
+                newTranslateY, 
+                this.originalHeight * this.scale, 
+                this.container.clientHeight
+            );
+            
             this.updateTransform();
         });
 
@@ -82,13 +97,13 @@ class PanZoomViewer {
 
     zoomIn() {
         this.scale = Math.min(this.scale + this.zoomStep, this.maxScale);
-        this.constrainPan(); // Adjust pan after zooming
+        this.constrainPosition();
         this.updateTransform();
     }
 
     zoomOut() {
         this.scale = Math.max(this.scale - this.zoomStep, this.minScale);
-        this.constrainPan(); // Adjust pan after zooming
+        this.constrainPosition();
         this.updateTransform();
     }
 
@@ -99,36 +114,40 @@ class PanZoomViewer {
         this.updateTransform();
     }
 
-    constrainPan() {
-        // If image is not zoomed, keep it centered
+    constrainTranslate(translate, scaledDimension, containerDimension) {
+        // If scaled dimension is smaller than container, keep centered
+        if (scaledDimension <= containerDimension) {
+            return 0;
+        }
+
+        // Calculate max translation
+        const maxTranslate = (scaledDimension - containerDimension) / 2;
+        
+        // Constrain translation
+        return Math.min(
+            Math.max(translate, -maxTranslate), 
+            maxTranslate
+        );
+    }
+
+    constrainPosition() {
+        // Constrain X and Y translations when scale changes
         if (this.scale <= 1) {
             this.translateX = 0;
             this.translateY = 0;
             return;
         }
 
-        // Calculate scaled image dimensions
-        const scaledWidth = this.originalWidth * this.scale;
-        const scaledHeight = this.originalHeight * this.scale;
-
-        // Calculate container dimensions
-        const containerWidth = this.container.clientWidth;
-        const containerHeight = this.container.clientHeight;
-
-        // Calculate maximum translation limits
-        const maxTranslateX = Math.abs((scaledWidth - containerWidth) / 2);
-        const maxTranslateY = Math.abs((scaledHeight - containerHeight) / 2);
-
-        // Constrain X translation
-        this.translateX = Math.min(
-            Math.max(this.translateX, -maxTranslateX), 
-            maxTranslateX
+        this.translateX = this.constrainTranslate(
+            this.translateX, 
+            this.originalWidth * this.scale, 
+            this.container.clientWidth
         );
 
-        // Constrain Y translation
-        this.translateY = Math.min(
-            Math.max(this.translateY, -maxTranslateY), 
-            maxTranslateY
+        this.translateY = this.constrainTranslate(
+            this.translateY, 
+            this.originalHeight * this.scale, 
+            this.container.clientHeight
         );
     }
 
