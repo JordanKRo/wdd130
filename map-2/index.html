@@ -59,12 +59,13 @@
 
                 this.max_scale = 3;
                 this.min_scale = .4;
+                
+                // constrains
+                // this.min_x_translation = -112
+                // this.max_x_translation = 112
 
-                this.min_x_translation = -112
-                this.max_x_translation = 112
-
-                this.min_y_translation = 112
-                this.max_y_translation = -112
+                // this.min_y_translation = 112
+                // this.max_y_translation = -112
                 
                 this.initEventListeners();
             }
@@ -94,10 +95,6 @@
                     this.translateX += deltaX;
                     this.translateY += deltaY;
 
-                    // Space for your constraints here
-                    // this.translateX = your constraint logic
-                    // this.translateY = your constraint logic
-
                     this.updateTransform();
                 });
 
@@ -116,20 +113,15 @@
                     const mouseX = e.clientX - rect.left - this.container.clientWidth / 2;
                     const mouseY = e.clientY - rect.top - this.container.clientHeight / 2;
 
-                    // Store old scale
                     const oldScale = this.scale;
 
-                    // Update scale based on wheel direction
                     if (e.deltaY < 0) {
                         this.zoomIn()
                     } else {
                         this.zoomOut()
                     }
 
-                    // Space for your scale constraints here
-                    // this.scale = your constraint logic
-
-                    // Adjust position to zoom toward mouse
+                    // zoom toward mouse
                     const scaleFactor = this.scale / oldScale;
                     this.translateX = mouseX * (1 - scaleFactor) + this.translateX * scaleFactor;
                     this.translateY = mouseY * (1 - scaleFactor) + this.translateY * scaleFactor;
@@ -189,7 +181,7 @@
                     this.translateY = Math.sign(this.translateY) * maxTranslateY;
                 }
 
-                // Apply the transform
+                // Apply transform
                 const transform = `translate(-50%, -50%) scale(${this.scale}) translate(${this.translateX / this.scale}px, ${this.translateY / this.scale}px)`;
                 this.image.style.transform = transform;
             }
