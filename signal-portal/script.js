@@ -145,9 +145,9 @@ class PanZoomViewer {
     
                 if (initialPinchDistance) {
                     const delta = currentDistance - initialPinchDistance;
-                    if (delta > 0) {
+                    if (delta > 2) {
                         this.zoomIn();
-                    } else if (delta < 0) {
+                    } else if (delta < 2) {
                         this.zoomOut();
                     }
                     initialPinchDistance = currentDistance;
