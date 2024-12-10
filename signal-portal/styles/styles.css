@@ -262,6 +262,14 @@ footer #links a{
     margin: 15px 0;
 }
 
+#data-content section{
+    margin: 30px 30px;
+}
+
+#data-content h1{
+    margin-top: 60px;
+}
+
 #map-legend {
     display: flex;
     flex-direction: row; /* Arrange legend items in a row */
@@ -403,6 +411,13 @@ footer #links a{
         width: 100%;
     }
 
+    .pan-zoom-container{
+        width: 95%;
+        height: 60vw;
+        margin: 20px;
+        box-sizing: border-box;
+    }
+
     .downloads-content a{
         display: block;
     }
@@ -440,7 +455,7 @@ footer #links a{
     }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 570px) {
     #map-legend{
         display: block;
     }
