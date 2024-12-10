@@ -5,22 +5,33 @@ class PanZoomViewer {
         this.image = imageElement;
         
         // Simple state
-        this.scale = .7;
         this.translateX = 0;
         this.translateY = 0;
-
         this.max_scale = 3;
-        this.min_scale = .6;
-        
-        // constrains
-        // this.min_x_translation = -112
-        // this.max_x_translation = 112
 
-        // this.min_y_translation = 112
-        // this.max_y_translation = -112
+        // Calculate minimum scale to ensure image fills either width or height
+        this.calculateMinScale();
+        this.scale = this.min_scale;  // Start at minimum scale
         
         this.initEventListeners();
         this.updateTransform();
+    }
+
+    calculateMinScale() {
+        // Calculate ratios of container to image dimensions
+        const containerRatio = this.container.clientWidth / this.container.clientHeight;
+        const imageRatio = this.image.width / this.image.height;
+
+        if (containerRatio > imageRatio) {
+            // Container is wider relative to image - fit to height
+            this.min_scale = this.container.clientHeight / this.image.height;
+        } else {
+            // Container is taller relative to image - fit to width
+            this.min_scale = this.container.clientWidth / this.image.width;
+        }
+
+        // Add a small buffer (e.g., 10%) to ensure full coverage
+        this.min_scale *= 1.11;
     }
 
     initEventListeners() {
@@ -34,6 +45,15 @@ class PanZoomViewer {
             lastX = e.clientX;
             lastY = e.clientY;
             this.container.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('resize', () => {
+            this.calculateMinScale()
+
+            if(this.scale <= this.min_scale){
+                this.scale = this.min_scale
+                this.updateTransform();
+            }
         });
 
         // Mouse move - update position
@@ -98,7 +118,7 @@ class PanZoomViewer {
 
     zoomOut() {
         
-        if(this.scale <= this.min_scale){
+        if(this.scale / 1.1 <= this.min_scale){
             this.scale = this.min_scale
         }else{
             this.scale /= 1.1;
@@ -114,6 +134,7 @@ class PanZoomViewer {
     }
 
     updateTransform() {
+        this.calculateMinScale();
         // Calculate the scaled dimensions
         const scaledImageWidth = this.image.width * this.scale;
         const scaledImageHeight = this.image.height * this.scale;

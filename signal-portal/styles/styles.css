@@ -262,17 +262,72 @@ footer #links a{
     margin: 15px 0;
 }
 
+#map-legend {
+    display: flex;
+    flex-direction: row; /* Arrange legend items in a row */
+    justify-content: space-between; /* Distribute items evenly across the row */
+    align-items: center; /* Align items vertically */
+    width: 700px; /* Match the width of the pan-zoom-container */
+    margin: 0 auto; /* Center the legend horizontally */
+    padding: 10px; /* Add some padding for a balanced look */
+    background-color: #151515; /* Optional: Add a background to the legend */
+    /* border: 1px solid #ddd; Optional: Add a border for better visibility */
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-sizing: border-box; /* Ensure padding doesn’t affect width */
+}
+
+.legend-label {
+    display: flex;
+    align-items: center; /* Align color boxes and text vertically */
+    gap: 10px; /* Space between the color box and the label text */
+}
+
+.legend-label p {
+    margin: 0; /* Remove extra margin from text */
+    font-size: 14px; /* Optional: Adjust font size */
+    text-align: left; /* Ensure text is left-aligned */
+}
+
+#red,
+#green,
+#white {
+    flex-shrink: 0; /* Prevent the boxes from shrinking */
+    border: 1px solid #000; /* Optional: Add a border for visibility */
+}
+
+
+#red{
+    background-color: red;
+    width: 30px;
+    height: 30px;
+}
+
+#green{
+    background-color: rgb(70, 255, 70);
+    width: 30px;
+    height: 30px;
+}
+
+#white{
+    background-color: white;
+    width: 30px;
+    height: 30px;
+}
+
 /* pan zoom */
 .pan-zoom-container {
     position: relative;
-    width: 700px;
-    height: 500px;
+    width: 60vw;
+    height: 35vw;
+    max-width: 1600px;
+    max-height: 1075px;
     overflow: hidden;
     border: 1px solid #333;
     margin: 20px auto;
     cursor: move;
     border-radius: 20px;
     box-shadow: 0px 0px 15px #ff0000;
+    background-color: rgb(208, 208, 208);
 }
 
 .pan-zoom-image {
