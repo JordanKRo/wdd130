@@ -41,6 +41,9 @@ class PanZoomViewer {
     
         // Mouse events
         this.container.addEventListener('mousedown', (e) => {
+            // Skip if clicked on a button
+            if (e.target.tagName === 'BUTTON') return;
+            
             isDragging = true;
             lastX = e.clientX;
             lastY = e.clientY;
@@ -49,6 +52,9 @@ class PanZoomViewer {
     
         // Touch events
         this.container.addEventListener('touchstart', (e) => {
+            // Skip if touching a button
+            if (e.target.tagName === 'BUTTON') return;
+            
             isDragging = true;
             lastX = e.touches[0].clientX;
             lastY = e.touches[0].clientY;
@@ -76,6 +82,8 @@ class PanZoomViewer {
     
         // Touch move
         document.addEventListener('touchmove', (e) => {
+            // Skip if touching a button
+            if (e.target.tagName === 'BUTTON') return;
             if (!isDragging) return;
     
             const touch = e.touches[0];
@@ -89,7 +97,7 @@ class PanZoomViewer {
     
             this.updateTransform();
             e.preventDefault(); // Prevent scrolling while dragging
-        }, { passive: false }); // Enable preventDefault() on touchmove
+        }, { passive: false });
     
         // Mouse up
         document.addEventListener('mouseup', () => {
@@ -108,12 +116,15 @@ class PanZoomViewer {
         });
     
         // Add pinch-to-zoom support
+        let initialPinchDistance = null;
         this.container.addEventListener('touchstart', (e) => {
+            // Skip if touching a button
+            if (e.target.tagName === 'BUTTON') return;
+            
             if (e.touches.length === 2) {
-                // Store initial pinch distance
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
-                this.initialPinchDistance = Math.hypot(
+                initialPinchDistance = Math.hypot(
                     touch2.clientX - touch1.clientX,
                     touch2.clientY - touch1.clientY
                 );
@@ -121,8 +132,10 @@ class PanZoomViewer {
         });
     
         this.container.addEventListener('touchmove', (e) => {
+            // Skip if touching a button
+            if (e.target.tagName === 'BUTTON') return;
+            
             if (e.touches.length === 2) {
-                // Calculate new distance
                 const touch1 = e.touches[0];
                 const touch2 = e.touches[1];
                 const currentDistance = Math.hypot(
@@ -130,22 +143,24 @@ class PanZoomViewer {
                     touch2.clientY - touch1.clientY
                 );
     
-                // Calculate zoom factor
-                if (this.initialPinchDistance) {
-                    const delta = currentDistance - this.initialPinchDistance;
+                if (initialPinchDistance) {
+                    const delta = currentDistance - initialPinchDistance;
                     if (delta > 0) {
                         this.zoomIn();
                     } else if (delta < 0) {
                         this.zoomOut();
                     }
-                    this.initialPinchDistance = currentDistance;
+                    initialPinchDistance = currentDistance;
                 }
                 e.preventDefault();
             }
         }, { passive: false });
     
-        // Wheel zoom (unchanged)
+        // Wheel zoom
         this.container.addEventListener('wheel', (e) => {
+            // Skip if on a button
+            if (e.target.tagName === 'BUTTON') return;
+            
             e.preventDefault();
     
             const rect = this.container.getBoundingClientRect();
@@ -167,7 +182,7 @@ class PanZoomViewer {
             this.updateTransform();
         });
     
-        // Prevent default drag behavior (unchanged)
+        // Prevent default drag behavior
         this.image.addEventListener('dragstart', (e) => e.preventDefault());
     }
 
