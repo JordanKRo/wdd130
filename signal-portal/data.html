@@ -20,15 +20,28 @@
         </nav>
     </header>
     <main>
-        <h1>Our Data</h1>
-        <p>So far we have collected information for over 2,000 Participants!</p>
-        <p>You can download the raw data here</p>
-        <a href="#">Download Raw Data</a>
-        <p>Here is a wifi heatmap of the rexburg campus. All possible by contributors like you!</p>
-        <div id="map-legend">
-            <p>[red] no data or low conectivity   [green] high speed internet   [white] Not enough info</p>
+        <div id="data-content">
+            <h1>Our Data</h1>
+            <section class="intro">
+                <p>So far we have collected information for over 2,000 Participants!</p>
+                <p>You can download the raw data here</p>
+                <a class="button" href="#">Download Raw Data</a>
+            </section>
+            <section class="heatmap">
+                <p>Here is a Wi-Fi heatmap of the Rexburg campus. All possible by contributors like you!</p>
+                <div id="map-legend">
+                    <p>[red] no data or low connectivity [green] high-speed internet [white] Not enough info</p>
+                </div>
+            </section>
+            <div class="pan-zoom-container" id="panZoomContainer">
+                <img src="images/rexburg_redo.png" alt="Zoomable Image" class="pan-zoom-image" id="zoomImage">
+                <div class="zoom-controls">
+                    <button id="zoomInBtn">+</button>
+                    <div class="divider"></div>
+                    <button id="zoomOutBtn">−</button>
+                </div>
+            </div>
         </div>
-        <img src="images/rexburg_redo.png" alt="">
     </main>
     <footer>
         <a id="logo_link" href="index.html">
@@ -41,4 +54,5 @@
         </div>
     </footer>
 </body>
+<script src="script.js"></script>
 </html>
