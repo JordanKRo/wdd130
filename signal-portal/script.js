@@ -38,71 +38,136 @@ class PanZoomViewer {
         let isDragging = false;
         let lastX = 0;
         let lastY = 0;
-
-        // Mouse down - start dragging
+    
+        // Mouse events
         this.container.addEventListener('mousedown', (e) => {
             isDragging = true;
             lastX = e.clientX;
             lastY = e.clientY;
             this.container.style.cursor = 'grabbing';
         });
-
-        window.addEventListener('resize', () => {
-            this.calculateMinScale()
-
-            if(this.scale <= this.min_scale){
-                this.scale = this.min_scale
-                this.updateTransform();
-            }
+    
+        // Touch events
+        this.container.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            lastX = e.touches[0].clientX;
+            lastY = e.touches[0].clientY;
+            e.preventDefault(); // Prevent scrolling while dragging
         });
-
-        // Mouse move - update position
+    
+        window.addEventListener('resize', () => {
+            this.updateTransform();
+        });
+    
+        // Mouse move
         document.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
-
+    
             const deltaX = e.clientX - lastX;
             const deltaY = e.clientY - lastY;
             lastX = e.clientX;
             lastY = e.clientY;
-
+    
             this.translateX += deltaX;
             this.translateY += deltaY;
-
+    
             this.updateTransform();
         });
-
-        // Mouse up - stop dragging
+    
+        // Touch move
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+    
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - lastX;
+            const deltaY = touch.clientY - lastY;
+            lastX = touch.clientX;
+            lastY = touch.clientY;
+    
+            this.translateX += deltaX;
+            this.translateY += deltaY;
+    
+            this.updateTransform();
+            e.preventDefault(); // Prevent scrolling while dragging
+        }, { passive: false }); // Enable preventDefault() on touchmove
+    
+        // Mouse up
         document.addEventListener('mouseup', () => {
             isDragging = false;
             this.container.style.cursor = 'move';
         });
-
-        // Wheel zoom
+    
+        // Touch end
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+    
+        // Touch cancel
+        document.addEventListener('touchcancel', () => {
+            isDragging = false;
+        });
+    
+        // Add pinch-to-zoom support
+        this.container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                // Store initial pinch distance
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                this.initialPinchDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+            }
+        });
+    
+        this.container.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2) {
+                // Calculate new distance
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+    
+                // Calculate zoom factor
+                if (this.initialPinchDistance) {
+                    const delta = currentDistance - this.initialPinchDistance;
+                    if (delta > 0) {
+                        this.zoomIn();
+                    } else if (delta < 0) {
+                        this.zoomOut();
+                    }
+                    this.initialPinchDistance = currentDistance;
+                }
+                e.preventDefault();
+            }
+        }, { passive: false });
+    
+        // Wheel zoom (unchanged)
         this.container.addEventListener('wheel', (e) => {
             e.preventDefault();
-
-            // Get mouse position relative to container center
+    
             const rect = this.container.getBoundingClientRect();
             const mouseX = e.clientX - rect.left - this.container.clientWidth / 2;
             const mouseY = e.clientY - rect.top - this.container.clientHeight / 2;
-
+    
             const oldScale = this.scale;
-
+    
             if (e.deltaY < 0) {
-                this.zoomIn()
+                this.zoomIn();
             } else {
-                this.zoomOut()
+                this.zoomOut();
             }
-
-            // zoom toward mouse
+    
             const scaleFactor = this.scale / oldScale;
             this.translateX = mouseX * (1 - scaleFactor) + this.translateX * scaleFactor;
             this.translateY = mouseY * (1 - scaleFactor) + this.translateY * scaleFactor;
-
+    
             this.updateTransform();
         });
-
-        // Prevent default drag behavior
+    
+        // Prevent default drag behavior (unchanged)
         this.image.addEventListener('dragstart', (e) => e.preventDefault());
     }
 
