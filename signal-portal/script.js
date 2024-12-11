@@ -38,10 +38,10 @@ class PanZoomViewer {
         let isDragging = false;
         let lastX = 0;
         let lastY = 0;
+        let initialPinchDistance = null;
     
         // Mouse events
         this.container.addEventListener('mousedown', (e) => {
-            // Skip if clicked on a button
             if (e.target.tagName === 'BUTTON') return;
             
             isDragging = true;
@@ -50,16 +50,28 @@ class PanZoomViewer {
             this.container.style.cursor = 'grabbing';
         });
     
-        // Touch events
+        // Consolidated touch start
         this.container.addEventListener('touchstart', (e) => {
-            // Skip if touching a button
             if (e.target.tagName === 'BUTTON') return;
             
-            isDragging = true;
-            lastX = e.touches[0].clientX;
-            lastY = e.touches[0].clientY;
-            e.preventDefault(); // Prevent scrolling while dragging
-        });
+            if (e.touches.length === 2) {
+                // Pinch start
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                initialPinchDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
+            } else if (e.touches.length === 1) {
+                // Single touch drag start
+                isDragging = true;
+                lastX = e.touches[0].clientX;
+                lastY = e.touches[0].clientY;
+            }
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+        }, { passive: false });
     
         window.addEventListener('resize', () => {
             this.updateTransform();
@@ -80,23 +92,44 @@ class PanZoomViewer {
             this.updateTransform();
         });
     
-        // Touch move
+        // Consolidated touch move
         document.addEventListener('touchmove', (e) => {
-            // Skip if touching a button
             if (e.target.tagName === 'BUTTON') return;
-            if (!isDragging) return;
     
-            const touch = e.touches[0];
-            const deltaX = touch.clientX - lastX;
-            const deltaY = touch.clientY - lastY;
-            lastX = touch.clientX;
-            lastY = touch.clientY;
+            if (e.touches.length === 2 && initialPinchDistance !== null) {
+                // Pinch zoom
+                const touch1 = e.touches[0];
+                const touch2 = e.touches[1];
+                const currentDistance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                );
     
-            this.translateX += deltaX;
-            this.translateY += deltaY;
+                const sensitivity = 0.2;
+                const delta = (currentDistance - initialPinchDistance) * sensitivity;
+                
+                if (delta > 1) {
+                    this.zoomIn();
+                } else if (delta < -1) {
+                    this.zoomOut();
+                }
+                initialPinchDistance = currentDistance;
+            } else if (e.touches.length === 1 && isDragging) {
+                // Single touch drag
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - lastX;
+                const deltaY = touch.clientY - lastY;
+                lastX = touch.clientX;
+                lastY = touch.clientY;
     
-            this.updateTransform();
-            e.preventDefault(); // Prevent scrolling while dragging
+                this.translateX += deltaX;
+                this.translateY += deltaY;
+    
+                this.updateTransform();
+            }
+            if (e.cancelable) {
+                e.preventDefault();
+            }
         }, { passive: false });
     
         // Mouse up
@@ -108,58 +141,17 @@ class PanZoomViewer {
         // Touch end
         document.addEventListener('touchend', () => {
             isDragging = false;
+            initialPinchDistance = null;
         });
     
         // Touch cancel
         document.addEventListener('touchcancel', () => {
             isDragging = false;
+            initialPinchDistance = null;
         });
-    
-        // Add pinch-to-zoom support with reduced sensitivity
-    let initialPinchDistance = null;
-    this.container.addEventListener('touchstart', (e) => {
-        if (e.target.tagName === 'BUTTON') return;
-        
-        if (e.touches.length === 2) {
-            const touch1 = e.touches[0];
-            const touch2 = e.touches[1];
-            initialPinchDistance = Math.hypot(
-                touch2.clientX - touch1.clientX,
-                touch2.clientY - touch1.clientY
-            );
-        }
-    });
-
-    this.container.addEventListener('touchmove', (e) => {
-        if (e.target.tagName === 'BUTTON') return;
-        
-        if (e.touches.length === 2) {
-            const touch1 = e.touches[0];
-            const touch2 = e.touches[1];
-            const currentDistance = Math.hypot(
-                touch2.clientX - touch1.clientX,
-                touch2.clientY - touch1.clientY
-            );
-
-            if (initialPinchDistance) {
-                // Add a sensitivity factor (0.2 means 20% of original speed)
-                const sensitivity = 0.2;
-                const delta = (currentDistance - initialPinchDistance) * sensitivity;
-                
-                if (delta > 1) {  // Threshold to prevent tiny movements
-                    this.zoomIn();
-                } else if (delta < -1) {
-                    this.zoomOut();
-                }
-                initialPinchDistance = currentDistance;
-            }
-            e.preventDefault();
-        }
-    }, { passive: false });
     
         // Wheel zoom
         this.container.addEventListener('wheel', (e) => {
-            // Skip if on a button
             if (e.target.tagName === 'BUTTON') return;
             
             e.preventDefault();
