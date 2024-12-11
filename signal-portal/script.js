@@ -115,46 +115,47 @@ class PanZoomViewer {
             isDragging = false;
         });
     
-        // Add pinch-to-zoom support
-        let initialPinchDistance = null;
-        this.container.addEventListener('touchstart', (e) => {
-            // Skip if touching a button
-            if (e.target.tagName === 'BUTTON') return;
-            
-            if (e.touches.length === 2) {
-                const touch1 = e.touches[0];
-                const touch2 = e.touches[1];
-                initialPinchDistance = Math.hypot(
-                    touch2.clientX - touch1.clientX,
-                    touch2.clientY - touch1.clientY
-                );
-            }
-        });
-    
-        this.container.addEventListener('touchmove', (e) => {
-            // Skip if touching a button
-            if (e.target.tagName === 'BUTTON') return;
-            
-            if (e.touches.length === 2) {
-                const touch1 = e.touches[0];
-                const touch2 = e.touches[1];
-                const currentDistance = Math.hypot(
-                    touch2.clientX - touch1.clientX,
-                    touch2.clientY - touch1.clientY
-                );
-    
-                if (initialPinchDistance) {
-                    const delta = currentDistance - initialPinchDistance;
-                    if (delta > 2) {
-                        this.zoomIn();
-                    } else if (delta < 2) {
-                        this.zoomOut();
-                    }
-                    initialPinchDistance = currentDistance;
+        // Add pinch-to-zoom support with reduced sensitivity
+    let initialPinchDistance = null;
+    this.container.addEventListener('touchstart', (e) => {
+        if (e.target.tagName === 'BUTTON') return;
+        
+        if (e.touches.length === 2) {
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            initialPinchDistance = Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+            );
+        }
+    });
+
+    this.container.addEventListener('touchmove', (e) => {
+        if (e.target.tagName === 'BUTTON') return;
+        
+        if (e.touches.length === 2) {
+            const touch1 = e.touches[0];
+            const touch2 = e.touches[1];
+            const currentDistance = Math.hypot(
+                touch2.clientX - touch1.clientX,
+                touch2.clientY - touch1.clientY
+            );
+
+            if (initialPinchDistance) {
+                // Add a sensitivity factor (0.2 means 20% of original speed)
+                const sensitivity = 0.2;
+                const delta = (currentDistance - initialPinchDistance) * sensitivity;
+                
+                if (delta > 1) {  // Threshold to prevent tiny movements
+                    this.zoomIn();
+                } else if (delta < -1) {
+                    this.zoomOut();
                 }
-                e.preventDefault();
+                initialPinchDistance = currentDistance;
             }
-        }, { passive: false });
+            e.preventDefault();
+        }
+    }, { passive: false });
     
         // Wheel zoom
         this.container.addEventListener('wheel', (e) => {
