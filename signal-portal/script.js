@@ -105,7 +105,7 @@ class PanZoomViewer {
                     touch2.clientY - touch1.clientY
                 );
     
-                const sensitivity = 0.2;
+                const sensitivity = 0.1;
                 const delta = (currentDistance - initialPinchDistance) * sensitivity;
                 
                 if (delta > 1) {
