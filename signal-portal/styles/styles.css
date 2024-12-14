@@ -20,7 +20,7 @@ main{
     margin: 0px 20px;
 }
 
-#logo-link{
+.logo-link{
     grid-column: 1/2;
 }
 
@@ -201,7 +201,7 @@ footer{
     margin-top: 20px;
 }
 
-footer #logo_link{
+footer .logo-link{
     grid-column: 1/2;
     justify-self: center;
 }

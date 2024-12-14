@@ -257,7 +257,7 @@ nav {
     grid-column: 2/3;
     
 }
-#logo_link{
+#logo-link{
     grid-column: 1/2;
     align-self: center;
 }
